@@ -48,9 +48,12 @@ my $TicketObject = Kernel::System::Ticket->new(
 my $ticket_id = $ARGV[0];
 print "Searching for ticket ID: $ticket_id\n";
 
+my $user_id = $ARGV[1];
+
 my %query = (
   Result => 'ARRAY',
   TicketID => $ticket_id,
+  UserID = $user_id,
 );
 
 my @results = $TicketObject->TicketSearch(%query);
