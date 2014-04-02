@@ -57,3 +57,6 @@ my %query = (
 );
 
 my @results = $TicketObject->TicketSearch(%query);
+
+print "Results: @results";
+print "\n";
