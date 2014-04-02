@@ -13,6 +13,7 @@ my %query = (
   TicketID => $ticket_id,
 );
 
-my @results = Kernel::System::TicketSearch::TicketSearch(%query);
+my $otrs = Kernel::System::TicketSearch->new();
+my @results = $otrs->TicketSearch(%query);
 
 print @results . "\n";
