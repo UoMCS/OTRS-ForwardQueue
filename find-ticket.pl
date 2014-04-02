@@ -52,7 +52,7 @@ my $user_id = $ARGV[1];
 
 my %query = (
   Result => 'ARRAY',
-  TicketID => $ticket_id,
+  TicketNumber => "'$ticket_id'",
   UserID => $user_id,
 );
 
