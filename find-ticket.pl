@@ -12,6 +12,6 @@ my %query = (
   TicketID => $ticket_id,
 );
 
-my @results = TicketSearch(%query);
+my @results = Kernel::System::TicketSearch::TicketSearch(%query);
 
 print @results . "\n";
