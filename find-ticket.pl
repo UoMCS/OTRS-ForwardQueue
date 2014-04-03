@@ -54,7 +54,7 @@ my $user_id = $ARGV[1];
 
 my %query = (
   Result => 'HASH',
-  TicketNumber => "'%$ticket_id%'",
+  Limit => 20,
   UserID => $user_id,
 );
 
