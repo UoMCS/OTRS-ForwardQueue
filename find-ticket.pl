@@ -54,9 +54,11 @@ my $user_id = $ARGV[1];
 
 my %query = (
   Result => 'HASH',
-  TicketNumber => "'%$ticket_id%'",
+  TicketNumber => "$ticket_id",
   UserID => $user_id,
 );
+
+warn Dumper(%query);
 
 my %results = $TicketObject->TicketSearch(%query);
 
