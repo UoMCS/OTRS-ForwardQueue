@@ -16,6 +16,9 @@ use Kernel::System::DB;
 use Kernel::System::Ticket;
 
 my $ConfigObject = Kernel::Config->new();
+
+$ConfigObject->Set( Key => 'TempDir', Value => '/tmp' );
+
 my $EncodeObject = Kernel::System::Encode->new(
   ConfigObject => $ConfigObject,
 );
