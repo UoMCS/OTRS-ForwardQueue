@@ -53,11 +53,11 @@ print "Searching for ticket ID: $ticket_id\n";
 my $user_id = $ARGV[1];
 
 my %query = (
-  Result => 'ARRAY',
+  Result => 'HASH',
   TicketNumber => "'%$ticket_id%'",
   UserID => $user_id,
 );
 
-my @results = $TicketObject->TicketSearch(%query);
+my %results = $TicketObject->TicketSearch(%query);
 
-warn Dumper(@results);
+warn Dumper(%results);
