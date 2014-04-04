@@ -23,6 +23,7 @@ has 'query' => (
   isa => 'HashRef',
   required => 1,
   handles => {
+    get_query => 'get',
     set_query => 'set',
   },
 );
@@ -90,6 +91,35 @@ sub process_queue
   $self->set_query('Result' => 'ARRAY');
   
   my @results = $TicketObject->TicketSearch(%{$self->query});
+  
+  foreach my $ticket_id (@results)
+  {
+    print "Processing ticket ID: $ticket_id\n";
+  
+    # Lock ticket before proceeding, to prevent other users from accessing it
+    my $lock_success = $TicketObject->TicketLockSet(
+	  Lock => 'lock',
+	  TicketID => $ticket_id,
+	  UserID => $self->get_query('UserID'),
+	  SendNoNotification = 1,
+	);
+	
+	# Log the change in the history
+	my $history_success = $TicketObject->HistoryAdd(
+	  Name => $self->get_options('HistoryComment'),
+	  HistoryType => 'Misc',
+	  TicketID => $ticket_id,
+	  CreateUserID = $self->get_query('UserID'),
+	);
+	
+	# Mark the ticket as successfully closed
+	my $close_success = $TicketObject->TicketStateSet(
+	  State => 'closed successful',
+	  TicketID => $ticket_id,
+	  UserID => $self->get_query('UserID'),
+	  SendNoNotifications => 1,
+	);
+  }
 }
 
 __PACKAGE__->meta->make_immutable;
