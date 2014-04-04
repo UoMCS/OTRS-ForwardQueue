@@ -23,6 +23,12 @@ has 'query' => (
   required => 1,
 );
 
+has 'options' => (
+  is => 'ro',
+  isa => 'HashRef',
+  required => 1,
+);
+
 
 __PACKAGE__->meta->make_immutable;
 
