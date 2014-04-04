@@ -101,7 +101,7 @@ sub process_queue
 	  Lock => 'lock',
 	  TicketID => $ticket_id,
 	  UserID => $self->get_query('UserID'),
-	  SendNoNotification = 1,
+	  SendNoNotification => 1,
 	);
 	
 	# Log the change in the history
@@ -109,7 +109,7 @@ sub process_queue
 	  Name => $self->get_options('HistoryComment'),
 	  HistoryType => 'Misc',
 	  TicketID => $ticket_id,
-	  CreateUserID = $self->get_query('UserID'),
+	  CreateUserID => $self->get_query('UserID'),
 	);
 	
 	# Mark the ticket as successfully closed
