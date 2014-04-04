@@ -31,8 +31,9 @@ has 'options' => (
   required => 1,
 );
 
-sub process_queue {
-  $self = shift;
+sub process_queue
+{
+  my $self = shift;
 
   # Create all objects necessary for searching tickets
   my $ConfigObject = Kernel::Config->new();
