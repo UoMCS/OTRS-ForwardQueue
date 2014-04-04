@@ -46,7 +46,7 @@ sub process_queue
   # Create all objects necessary for searching tickets
   my $ConfigObject = Kernel::Config->new();
 
-  if ($self->exists_option('TempDir') && $self->defined_option('TempDir')
+  if ($self->exists_option('TempDir') && $self->defined_option('TempDir'))
   {
     $ConfigObject->Set( Key => 'TempDir', Value => $self->get_option('TempDir') );
   }
