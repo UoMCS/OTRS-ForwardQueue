@@ -79,7 +79,7 @@ sub process_queue
   
   $self->query->{'Result'} = 'ARRAY';
   
-  my @results = $TicketObject->TicketSearch(%$self->query);
+  my @results = $TicketObject->TicketSearch(%($self->query));
 }
 
 __PACKAGE__->meta->make_immutable;
