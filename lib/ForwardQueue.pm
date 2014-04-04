@@ -153,7 +153,9 @@ This module requires the following modules:
 =over 4
 
 =item C<IO::Interactive>
+
 =item C<Moose>
+
 =item C<namespace::autoclean>
 
 =back
