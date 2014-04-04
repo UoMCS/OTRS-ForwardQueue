@@ -123,4 +123,37 @@ sub process_queue
 
 __PACKAGE__->meta->make_immutable;
 
-1;
+1; # Magic true value required at end of module
+__END__
+
+=head1 NAME
+
+ForwardQueue - Forwards the contents of an OTRS queue to a given email address.
+
+=head1 VERSION
+
+This document describes ForwardQueue version 0.0.1.
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+This module queries the Open Technology Real Services (OTRS) ticket management
+system for ticketss matching the query provided and then forwards these
+tickets to an email address, closing them in OTRS.
+
+The original motivation for writing this module was to re-assign tickets
+which were reported in the incorrect system.
+
+=head1 DEPENDENCIES
+
+This module requires the following modules:
+
+=over
+
+=item C<IO::Interactive>
+=item C<Moose>
+=item C<namespace::autoclean>
+
+=back
