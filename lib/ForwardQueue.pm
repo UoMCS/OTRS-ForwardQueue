@@ -18,17 +18,69 @@ use Kernel::System::Ticket;
 our $VERSION = 0.01;
 
 has 'query' => (
-  is => 'ro',
+  traits => ['Hash'],
+  is => 'rw',
   isa => 'HashRef',
   required => 1,
 );
 
 has 'options' => (
+  traits => ['Hash'],
   is => 'ro',
   isa => 'HashRef',
   required => 1,
 );
 
+sub process_queue {
+  $self = shift;
+
+  # Create all objects necessary for searching tickets
+  my $ConfigObject = Kernel::Config->new();
+
+  $ConfigObject->Set( Key => 'TempDir', Value => '/tmp' );
+
+  my $EncodeObject = Kernel::System::Encode->new(
+    ConfigObject => $ConfigObject,
+  );
+
+  my $LogObject = Kernel::System::Log->new(
+    ConfigObject => $ConfigObject,
+    EncodeObject => $EncodeObject,
+  );
+
+  my $TimeObject = Kernel::System::Time->new(
+    ConfigObject => $ConfigObject,
+    LogObject    => $LogObject,
+  );
+
+  my $MainObject = Kernel::System::Main->new(
+    ConfigObject => $ConfigObject,
+    EncodeObject => $EncodeObject,
+    LogObject    => $LogObject,
+  );
+
+  my $DBObject = Kernel::System::DB->new(
+    ConfigObject => $ConfigObject,
+    EncodeObject => $EncodeObject,
+    LogObject    => $LogObject,
+    MainObject   => $MainObject,
+  );
+
+  my $TicketObject = Kernel::System::Ticket->new(
+    ConfigObject       => $ConfigObject,
+    LogObject          => $LogObject,
+    DBObject           => $DBObject,
+    MainObject         => $MainObject,
+    TimeObject         => $TimeObject,
+    EncodeObject       => $EncodeObject,
+  );
+  
+  $self->query()->set('Result' => 'ARRAY');
+  
+  my @results = $TicketObject->TicketSearch($self->query());
+
+  
+}
 
 __PACKAGE__->meta->make_immutable;
 
