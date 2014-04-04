@@ -79,7 +79,7 @@ sub process_queue
     EncodeObject       => $EncodeObject,
   );
   
-  $self->query()->set('Result' => 'ARRAY');
+  $self->query->set('Result' => 'ARRAY');
   
   my @results = $TicketObject->TicketSearch($self->query());
 
