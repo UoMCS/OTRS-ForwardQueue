@@ -18,6 +18,7 @@ use Kernel::System::Ticket;
 our $VERSION = 0.01;
 
 has 'query' => (
+  trait => ['Hash'],
   is => 'rw',
   isa => 'HashRef',
   required => 1,
@@ -77,8 +78,10 @@ sub process_queue
     EncodeObject       => $EncodeObject,
   );  
   
-  my %query = $self->query;
-  $query{'Result'} = 'ARRAY';
+  #my %query = $self->query;
+  #$query{'Result'} = 'ARRAY';
+  
+  $self->query->set('Result' => 'ARRAY');
   
   my @results = $TicketObject->TicketSearch(%query);
 }
