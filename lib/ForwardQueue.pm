@@ -16,7 +16,7 @@ our $VERSION = 0.01;
 
 sub new {
   my $class = shift;
-  my %options = shift;
+  my (%options) = @_;
   
   my $self = bless {
     options => %options,
