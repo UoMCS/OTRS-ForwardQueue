@@ -16,8 +16,15 @@ our $VERSION = 0.01;
 
 sub new {
   my $class = shift;
+  my %options = shift;
   
-  bless $class;
+  my $self = bless {
+    options => %options,
+  }, $class;
+  
+  return $self;
 }
+
+
 
 1;
