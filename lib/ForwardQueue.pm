@@ -23,7 +23,7 @@ has 'query' => (
   isa => 'HashRef',
   required => 1,
   handles => {
-    set_option => 'set',
+    set_query => 'set',
   },
 );
 
@@ -81,7 +81,7 @@ sub process_queue
   #my %query = $self->query;
   #$query{'Result'} = 'ARRAY';
   
-  $self->query->set('Result' => 'ARRAY');
+  $self->set_query('Result' => 'ARRAY');
   
   my @results = $TicketObject->TicketSearch($self->query);
 }
