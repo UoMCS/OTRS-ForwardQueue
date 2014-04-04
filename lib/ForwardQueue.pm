@@ -18,7 +18,6 @@ use Kernel::System::Ticket;
 our $VERSION = 0.01;
 
 has 'query' => (
-  traits => ['Hash'],
   is => 'rw',
   isa => 'HashRef',
   required => 1,
@@ -28,8 +27,7 @@ has 'query' => (
 );
 
 has 'options' => (
-  traits => ['Hash'],
-  is => 'ro',
+  is => 'rw',
   isa => 'HashRef',
   required => 1,
 );
@@ -77,13 +75,11 @@ sub process_queue
     MainObject         => $MainObject,
     TimeObject         => $TimeObject,
     EncodeObject       => $EncodeObject,
-  );
+  );  
   
-  $self->query->set('Result' => 'ARRAY');
+  $self->query->{'Result'} = 'ARRAY';
   
-  my @results = $TicketObject->TicketSearch($self->query());
-
-  
+  my @results = $TicketObject->TicketSearch($self->query);
 }
 
 __PACKAGE__->meta->make_immutable;
