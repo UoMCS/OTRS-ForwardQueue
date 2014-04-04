@@ -22,6 +22,9 @@ has 'query' => (
   is => 'rw',
   isa => 'HashRef',
   required => 1,
+  handles => {
+    set_option => 'set',
+  },
 );
 
 has 'options' => (
