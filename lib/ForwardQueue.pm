@@ -32,7 +32,7 @@ has 'options' => (
   is => 'rw',
   isa => 'HashRef',
   required => 1,
-  handles > {
+  handles => {
     get_option => 'get',
     exists_option => 'exists',
     defined_option => 'defined',
