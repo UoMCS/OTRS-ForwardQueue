@@ -150,7 +150,7 @@ which were reported in the incorrect system.
 
 This module requires the following modules:
 
-=over
+=over 4
 
 =item C<IO::Interactive>
 =item C<Moose>
