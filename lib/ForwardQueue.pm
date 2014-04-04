@@ -28,9 +28,15 @@ has 'query' => (
 );
 
 has 'options' => (
+  traits => ['Hash'],
   is => 'rw',
   isa => 'HashRef',
   required => 1,
+  handles > {
+    get_option => 'get',
+    exists_option => 'exists',
+    defined_option => 'defined',
+  }.
 );
 
 sub process_queue
@@ -40,7 +46,10 @@ sub process_queue
   # Create all objects necessary for searching tickets
   my $ConfigObject = Kernel::Config->new();
 
-  $ConfigObject->Set( Key => 'TempDir', Value => '/tmp' );
+  if ($self->exists_option('TempDir') && $self->defined_option('TempDir')
+  {
+    $ConfigObject->Set( Key => 'TempDir', Value => $self->get_option('TempDir') );
+  }
 
   my $EncodeObject = Kernel::System::Encode->new(
     ConfigObject => $ConfigObject,
