@@ -3,6 +3,8 @@ package ForwardQueue;
 use strict;
 use warnings;
 
+use Moose;
+
 use lib '/var/lib/otrs/otrs-3.2.10';
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -14,16 +16,7 @@ use Kernel::System::Ticket;
 
 our $VERSION = 0.01;
 
-sub new {
-  my $class = shift;
-  my (%options) = @_;
-  
-  my $self = bless {
-    options => \%options,
-  }, $class;
-  
-  return $self;
-}
+has 'options' => (is => 'ro', isa => 'HashRef');
 
 
 
