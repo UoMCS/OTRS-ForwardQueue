@@ -106,7 +106,7 @@ sub process_queue
 	
 	# Log the change in the history
 	my $history_success = $TicketObject->HistoryAdd(
-	  Name => $self->get_options('HistoryComment'),
+	  Name => $self->get_option('HistoryComment'),
 	  HistoryType => 'Misc',
 	  TicketID => $ticket_id,
 	  CreateUserID => $self->get_query('UserID'),
