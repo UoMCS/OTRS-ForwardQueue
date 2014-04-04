@@ -152,10 +152,10 @@ This module requires the following modules:
 
 =over 4
 
-=item C<IO::Interactive>
+=item L<IO::Interactive>
 
-=item C<Moose>
+=item L<Moose>
 
-=item C<namespace::autoclean>
+=item L<namespace::autoclean>
 
 =back
