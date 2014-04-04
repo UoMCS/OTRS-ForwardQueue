@@ -19,7 +19,7 @@ sub new {
   my (%options) = @_;
   
   my $self = bless {
-    options => %options,
+    options => \%options,
   }, $class;
   
   return $self;
