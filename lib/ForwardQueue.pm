@@ -36,7 +36,7 @@ has 'options' => (
     get_option => 'get',
     exists_option => 'exists',
     defined_option => 'defined',
-  }.
+  },
 );
 
 sub process_queue
