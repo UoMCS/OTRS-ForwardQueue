@@ -17,7 +17,7 @@ use Kernel::System::Ticket;
 
 our $VERSION = 0.01;
 
-has 'options' => (
+has 'query' => (
   is => 'ro',
   isa => 'HashRef',
   required => 1,
