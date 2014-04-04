@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 our $VERSION = 0.01;
 
 has 'query' => (
-  trait => ['Hash'],
+  traits => ['Hash'],
   is => 'rw',
   isa => 'HashRef',
   required => 1,
