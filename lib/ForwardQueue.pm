@@ -159,3 +159,23 @@ This module requires the following modules:
 =item L<namespace::autoclean>
 
 =back
+
+=head1 INCOMPATIBILITIES
+
+None reported.
+
+=head1 BUGS AND LIMITATIONS
+ 
+No bugs have been reported.
+
+Please report any bugs through the Github issue system:
+
+L<https://github.com/pwaring/otrs-forward-queue/issues>
+
+=head1 AUTHOR
+
+Paul Waring C<< <paul.waring@manchester.ac.uk> >>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2014, University of Manchester. All rights reserved.
