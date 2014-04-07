@@ -94,30 +94,39 @@ sub process_queue
   foreach my $ticket_id (@results)
   {
     print "Processing ticket ID: $ticket_id\n";
-  
-    # Lock ticket before proceeding, to prevent other users from accessing it
-    my $lock_success = $TicketObject->TicketLockSet(
-	  Lock => 'lock',
-	  TicketID => $ticket_id,
-	  UserID => $self->get_query('UserID'),
-	  SendNoNotification => 1,
-	);
 	
-	# Log the change in the history
-	my $history_success = $TicketObject->HistoryAdd(
-	  Name => $self->get_option('HistoryComment'),
-	  HistoryType => 'Misc',
-	  TicketID => $ticket_id,
-	  CreateUserID => $self->get_query('UserID'),
-	);
+	unless ($self->exists_option('DisableLocking') && $self->defined_option('DisableLocking') && $self->get_option('DisableLocking'))
+	{
+      # Lock ticket before proceeding, to prevent other users from accessing it
+      my $lock_success = $TicketObject->TicketLockSet(
+	    Lock => 'lock',
+	    TicketID => $ticket_id,
+	    UserID => $self->get_query('UserID'),
+	    SendNoNotification => 1,
+	  );
+	}
+		
+	unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))
+	{
+	  # Log the change in the history
+	  my $history_success = $TicketObject->HistoryAdd(
+	    Name => $self->get_option('HistoryComment'),
+	    HistoryType => 'Misc',
+	    TicketID => $ticket_id,
+	    CreateUserID => $self->get_query('UserID'),
+	  );
+	}
 	
-	# Mark the ticket as successfully closed
-	my $close_success = $TicketObject->TicketStateSet(
-	  State => 'closed successful',
-	  TicketID => $ticket_id,
-	  UserID => $self->get_query('UserID'),
-	  SendNoNotifications => 1,
-	);
+	unless ($self->exists_option('DisableClosing') && $self->defined_option('DisableClosing') && $self->get_option('DisableClosing'))
+	{
+	  # Mark the ticket as successfully closed
+	  my $close_success = $TicketObject->TicketStateSet(
+	    State => 'closed successful',
+	    TicketID => $ticket_id,
+	    UserID => $self->get_query('UserID'),
+	    SendNoNotifications => 1,
+	  );
+	}
   }
 }
 
@@ -152,11 +161,11 @@ This module requires the following modules:
 
 =over 4
 
-=item L<IO::Interactive>
+=item * L<IO::Interactive>
 
-=item L<Moose>
+=item * L<Moose>
 
-=item L<namespace::autoclean>
+=item * L<namespace::autoclean>
 
 =back
 
@@ -175,6 +184,10 @@ L<https://github.com/pwaring/otrs-forward-queue/issues>
 =head1 AUTHOR
 
 Paul Waring C<< <paul.waring@manchester.ac.uk> >>
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
 
 =head1 COPYRIGHT
 
