@@ -129,7 +129,7 @@ sub process_queue
 		body => '',
       );
 	  
-	  %mail_options = (
+	  my %mail_options = (
 	    from => $from_address,
 	  );
 	  
