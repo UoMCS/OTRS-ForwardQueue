@@ -12,3 +12,5 @@ The following Perl modules are required:
  * IO::Interactive
  * Moose
  * namespace::autoclean
+ * Email::Simple
+ * Email::Sender

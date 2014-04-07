@@ -205,7 +205,7 @@ This module requires the following modules:
 
 =over 4
 
-=item * L<IO::Interactive>
+=item * L<IO::Interactive> - Dependency of OTRS modules (not used by web frontend so may not be installed).
 
 =item * L<Moose>
 
