@@ -18,6 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
+use Kernel::System::Ticket::Article;
 
 our $VERSION = 0.01;
 
@@ -117,7 +118,11 @@ sub process_queue
 	
 	unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
 	{
-	  my $from_address = $ticket{'CustomerID'};
+	  my $first_article = $TicketObject->ArticleFirstArticle(
+	    TicketID => $ticket_id,
+      );
+	
+	  my $from_address = $first_article{'From'};
 	  my $recipient = $self->get_option('ForwardTo');
 	  
 	  my $email = Email::Simple->create(
@@ -126,7 +131,7 @@ sub process_queue
 		  From => $from_address,
 		  Subject => $ticket{'Title'},
 		],
-		body => '',
+		body => $first_article{'Body'},
       );
 	  
 	  my %mail_options = (
