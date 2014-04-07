@@ -117,7 +117,32 @@ sub process_queue
 	
 	unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
 	{
+	  my $from_address = $ticket{'CustomerID'};
+	  my $recipient = $self->get_option('ForwardTo');
 	  
+	  my $email = Email::Simple->create(
+	    header => [
+		  To => $recipient,
+		  From => $from_address,
+		  Subject => $ticket{'Title'},
+		],
+		body => '',
+      );
+	  
+	  %mail_options = (
+	    from => $from_address,
+	  );
+	  
+	  if ($self->exists_option('SMTP') && $self->defined_option('SMTP') && $self->get_option('SMTP'))
+	  {
+	    my $transport = Email::Sender::Transport::SMTP->new({
+	      host => $self->get_option('SMTPServer'),
+		});
+		
+		$mail_options{'transport'} = $transport;
+	  }
+	  
+	  Email::Sender::Simple->send($email, \%mail_options);
 	}
 		
 	unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))

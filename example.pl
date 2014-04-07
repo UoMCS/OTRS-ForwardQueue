@@ -17,6 +17,8 @@ use ForwardQueue;
   ForwardTo => 'nobody@example.org',
   TempDir => '/tmp',
   HistoryComment => 'Forward to other request system',
+  SMTP => 1,
+  SMTPServer => 'smtp.example.org',
 );
 
 my $fq = ForwardQueue->new('query' => \%query, 'options' => \%options);
