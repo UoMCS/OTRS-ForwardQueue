@@ -6,3 +6,4 @@
  * Create rollback mechanism to unlock ticket if anything fails (e.g. sending email)
  * Work out how to deal with forwarding emails when SPF is in effect - could just email user/customer to ask them to resend manually?
  * Add POD documentation
+ * Work out how to handle HTML emails - ideally want to strip these to the plain text body
