@@ -118,7 +118,7 @@ sub process_queue
 	
 	unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
 	{
-	  my $first_article = $TicketObject->ArticleFirstArticle(
+	  my %first_article = $TicketObject->ArticleFirstArticle(
 	    TicketID => $ticket_id,
       );
 	
