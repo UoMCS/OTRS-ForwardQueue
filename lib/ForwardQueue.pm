@@ -135,7 +135,7 @@ sub process_queue
       );
 	  
 	  my %mail_options = (
-	    from => $from_address,
+	    from => $first_article{'CustomerID'},
 	  );
 	  
 	  if ($self->exists_option('SMTP') && $self->defined_option('SMTP') && $self->get_option('SMTP'))
