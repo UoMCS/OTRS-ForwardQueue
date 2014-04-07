@@ -100,7 +100,7 @@ sub process_queue
   {
     print "Processing ticket ID: $ticket_id\n";
 	
-	my %ticket = Kernel::System::Ticket->TicketGet(
+	my %ticket = $TicketObject->TicketGet(
 	  TicketID => $ticket_id,
 	);
 	
