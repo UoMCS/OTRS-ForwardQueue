@@ -1,7 +1,10 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
+use autodie;
+
+use ForwardQueue;
 
 %query = (
   Queue => 'MyQueue',
@@ -15,3 +18,7 @@ use warnings;
   TempDir => '/tmp',
   HistoryComment => 'Forward to other request system',
 );
+
+my $fq = ForwardQueue->new('query' => \%query, 'options' => \%options);
+
+$fp->process_queue();
