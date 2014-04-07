@@ -6,6 +6,11 @@ use warnings;
 use Moose;
 use namespace::autoclean;
 
+use Email::Sender::Simple;
+use Email::Sender::Transport::SMTP;
+use Email::Simple;
+use Email::Simple::Creator;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -95,6 +100,10 @@ sub process_queue
   {
     print "Processing ticket ID: $ticket_id\n";
 	
+	my %ticket = Kernel::System::Ticket->TicketGet(
+	  TicketID => $ticket_id,
+	);
+	
 	unless ($self->exists_option('DisableLocking') && $self->defined_option('DisableLocking') && $self->get_option('DisableLocking'))
 	{
       # Lock ticket before proceeding, to prevent other users from accessing it
@@ -104,6 +113,11 @@ sub process_queue
 	    UserID => $self->get_query('UserID'),
 	    SendNoNotification => 1,
 	  );
+	}
+	
+	unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
+	{
+	  
 	}
 		
 	unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))
@@ -166,6 +180,10 @@ This module requires the following modules:
 =item * L<Moose>
 
 =item * L<namespace::autoclean>
+
+=item * L<Email::Simple>
+
+=item * L<Email::Sender>
 
 =back
 
