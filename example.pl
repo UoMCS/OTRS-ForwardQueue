@@ -7,7 +7,7 @@ use autodie;
 use ForwardQueue;
 
 %query = (
-  Queue => 'MyQueue',
+  Queues => ['MyQueue'],
   States => ['new', 'open'],
   Locks => ['unlock'],
   UserID => 1,
