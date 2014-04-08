@@ -105,117 +105,117 @@ sub process_queue
   foreach my $ticket_id (@results)
   {
     print "Processing ticket ID: $ticket_id\n";
-	
-	my %ticket = $TicketObject->TicketGet(
-	  TicketID => $ticket_id,
-	);
-	
-	unless ($self->exists_option('DisableLocking') && $self->defined_option('DisableLocking') && $self->get_option('DisableLocking'))
-	{
+    
+    my %ticket = $TicketObject->TicketGet(
+      TicketID => $ticket_id,
+    );
+    
+    unless ($self->exists_option('DisableLocking') && $self->defined_option('DisableLocking') && $self->get_option('DisableLocking'))
+    {
       # Lock ticket before proceeding, to prevent other users from accessing it
       my $lock_success = $TicketObject->TicketLockSet(
-	    Lock => 'lock',
-	    TicketID => $ticket_id,
-	    UserID => $self->get_query('UserID'),
-	    SendNoNotification => 1,
-	  );
-	}
-	
-	unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
-	{
-	  # First article in ticket will be the original user request - we need this for the
-	  # body of the forwarded email and the full From: field
-	  my %first_article = $TicketObject->ArticleFirstArticle(
-	    TicketID => $ticket_id,
+        Lock => 'lock',
+        TicketID => $ticket_id,
+        UserID => $self->get_query('UserID'),
+        SendNoNotification => 1,
       );
-	
-	  my $from_address = $first_article{'From'};
-	  my $recipient = $self->get_option('ForwardTo');
-	  
-	  my $forward_email = Email::Simple->create(
-	    header => [
-		  To => $recipient,
-		  From => $from_address,
-		  Subject => $ticket{'Title'},
-		],
-		body => $first_article{'Body'},
+    }
+    
+    unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
+    {
+      # First article in ticket will be the original user request - we need this for the
+      # body of the forwarded email and the full From: field
+      my %first_article = $TicketObject->ArticleFirstArticle(
+        TicketID => $ticket_id,
       );
-	  
-	  # Set additional mail options, including envelope from
-	  my %mail_options = (
-	    from => $first_article{'CustomerID'},
-	  );
-	  
-	  if ($self->exists_option('SMTP') && $self->defined_option('SMTP') && $self->get_option('SMTP'))
-	  {
-	    my $transport = Email::Sender::Transport::SMTP->new({
-	      host => $self->get_option('SMTPServer'),
-		});
-		
-		$mail_options{'transport'} = $transport;
-	  }
-	  
-	  Email::Sender::Simple->send($forward_email, \%mail_options);
-	  
-	  if ($self->exists_option('NotifyCustomer') && $self->defined_option('NotifyCustomer') && $self->get_option('NotifyCustomer'))
-	  {
-	    # Produce the body of the response to the customer
-		my $nc_tt = Template->new({
-		  INCLUDE_PATH => $self->get_option('TemplatesPath')
-		}) || die "$Template::ERROR\n";
-		
-		my $nc_output = '';
-		my $nc_vars = {};
-		
-		$nc_tt->process('notify_customer.tt', $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
-		
-		# Add a new article, which should be emailed automatically to the customer.
-		# Remember that To/From are reversed here, since we are sending an email to
-		# the customer who raised the ticket.
-		my $article_id = $TicketObject->ArticleSend(
-		  TicketID => $ticket_id,
-		  ArticleType => 'email-external',
-		  SenderType => 'system',
-		  From => $first_article{'ToRealname'},
-		  To => $first_article{'From'},
-		  Subject => 'Forwarding ticket',
-		  Body => $nc_output,
-		  Charset => 'ISO-8859-15',
-		  MimeType => 'text/plain',
-		  HistoryType => 'EmailCustomer',
-		  HistoryComment => 'Notified customer of ticket forwarding',
-		  UserID => $self->get_query('UserID'),
-		  AutoResponseType => 'auto reply',
-		  OrigHeader => {
-		    From => $first_article{'ToRealname'},
-			To => $first_article{'From'},
-			Subject => 'Forwarding ticket',
-		  },
-		);
-	  }
-	}
-		
-	unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))
-	{
-	  # Log the change in the history
-	  my $history_success = $TicketObject->HistoryAdd(
-	    Name => $self->get_option('HistoryComment'),
-	    HistoryType => 'Misc',
-	    TicketID => $ticket_id,
-	    CreateUserID => $self->get_query('UserID'),
-	  );
-	}
-	
-	unless ($self->exists_option('DisableClosing') && $self->defined_option('DisableClosing') && $self->get_option('DisableClosing'))
-	{
-	  # Mark the ticket as successfully closed
-	  my $close_success = $TicketObject->TicketStateSet(
-	    State => 'closed successful',
-	    TicketID => $ticket_id,
-	    UserID => $self->get_query('UserID'),
-	    SendNoNotifications => 1,
-	  );
-	}
+    
+      my $from_address = $first_article{'From'};
+      my $recipient = $self->get_option('ForwardTo');
+      
+      my $forward_email = Email::Simple->create(
+        header => [
+          To => $recipient,
+          From => $from_address,
+          Subject => $ticket{'Title'},
+        ],
+        body => $first_article{'Body'},
+      );
+      
+      # Set additional mail options, including envelope from
+      my %mail_options = (
+        from => $first_article{'CustomerID'},
+      );
+      
+      if ($self->exists_option('SMTP') && $self->defined_option('SMTP') && $self->get_option('SMTP'))
+      {
+        my $transport = Email::Sender::Transport::SMTP->new({
+          host => $self->get_option('SMTPServer'),
+        });
+        
+        $mail_options{'transport'} = $transport;
+      }
+      
+      Email::Sender::Simple->send($forward_email, \%mail_options);
+      
+      if ($self->exists_option('NotifyCustomer') && $self->defined_option('NotifyCustomer') && $self->get_option('NotifyCustomer'))
+      {
+        # Produce the body of the response to the customer
+        my $nc_tt = Template->new({
+          INCLUDE_PATH => $self->get_option('TemplatesPath')
+        }) || die "$Template::ERROR\n";
+        
+        my $nc_output = '';
+        my $nc_vars = {};
+        
+        $nc_tt->process('notify_customer.tt', $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
+        
+        # Add a new article, which should be emailed automatically to the customer.
+        # Remember that To/From are reversed here, since we are sending an email to
+        # the customer who raised the ticket.
+        my $article_id = $TicketObject->ArticleSend(
+          TicketID => $ticket_id,
+          ArticleType => 'email-external',
+          SenderType => 'system',
+          From => $first_article{'ToRealname'},
+          To => $first_article{'From'},
+          Subject => 'Forwarding ticket',
+          Body => $nc_output,
+          Charset => 'ISO-8859-15',
+          MimeType => 'text/plain',
+          HistoryType => 'EmailCustomer',
+          HistoryComment => 'Notified customer of ticket forwarding',
+          UserID => $self->get_query('UserID'),
+          AutoResponseType => 'auto reply',
+          OrigHeader => {
+            From => $first_article{'ToRealname'},
+            To => $first_article{'From'},
+            Subject => 'Forwarding ticket',
+          },
+        );
+      }
+    }
+        
+    unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))
+    {
+      # Log the change in the history
+      my $history_success = $TicketObject->HistoryAdd(
+        Name => $self->get_option('HistoryComment'),
+        HistoryType => 'Misc',
+        TicketID => $ticket_id,
+        CreateUserID => $self->get_query('UserID'),
+      );
+    }
+    
+    unless ($self->exists_option('DisableClosing') && $self->defined_option('DisableClosing') && $self->get_option('DisableClosing'))
+    {
+      # Mark the ticket as successfully closed
+      my $close_success = $TicketObject->TicketStateSet(
+        State => 'closed successful',
+        TicketID => $ticket_id,
+        UserID => $self->get_query('UserID'),
+        SendNoNotifications => 1,
+      );
+    }
   }
 }
 
@@ -249,9 +249,9 @@ This document describes ForwardQueue version 0.0.1.
       HistoryComment => 'Forward to other request system',
       SMTP => 1,
       SMTPServer => 'smtp.example.org',
-	  NotifyCustomer => 1,
-	  NotifyCustomerTemplate => 'notify_customer.tt',
-	  TemplatesPath => '/usr/local/templates',
+      NotifyCustomer => 1,
+      NotifyCustomerTemplate => 'notify_customer.tt',
+      TemplatesPath => '/usr/local/templates',
     );
 
     my $fq = ForwardQueue->new('query' => \%query, 'options' => \%options);
