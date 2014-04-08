@@ -283,6 +283,8 @@ This module requires the following modules:
 
 =item * L<Email::Sender>
 
+=item * L<Template> - For dynamically producing the body of emails.
+
 =back
 
 You must also have the OTRS source installed and available via C<@INC>.
