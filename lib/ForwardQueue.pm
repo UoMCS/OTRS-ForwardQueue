@@ -184,7 +184,7 @@ sub process_queue
 		  HistoryType => 'EmailCustomer',
 		  HistoryComment => 'Notified customer of ticket forwarding',
 		  UserID => $self->get_query('UserID'),
-		  NoAgentNotify => 1,
+		  NoAgentNotify => 0,
 		  AutoResponseType => 'auto reply',
 		);
 	  }
