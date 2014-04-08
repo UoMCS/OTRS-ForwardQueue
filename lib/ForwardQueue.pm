@@ -179,6 +179,7 @@ sub process_queue
 		  To => $first_article{'From'},
 		  Subject => 'Forwarding ticket',
 		  Body => $nc_output,
+		  ContentType => 'text/plain; charset=ISO-8859-15',
 		  HistoryType => 'EmailCustomer',
 		  HistoryComment => 'Notified customer of ticket forwarding',
 		  UserID => $self->get_query('UserID'),
