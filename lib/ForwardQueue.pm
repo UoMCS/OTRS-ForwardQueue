@@ -180,6 +180,7 @@ sub process_queue
 		  Subject => 'Forwarding ticket',
 		  Body => $nc_output,
 		  HistoryType => 'EmailCustomer',
+		  HistoryComment => 'Notified customer of ticket forwarding',
 		  UserID => $self->get_query('UserID'),
 		  NoAgentNotify => 1,
 		);
