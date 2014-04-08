@@ -184,7 +184,6 @@ sub process_queue
 		  HistoryType => 'EmailCustomer',
 		  HistoryComment => 'Notified customer of ticket forwarding',
 		  UserID => $self->get_query('UserID'),
-		  NoAgentNotify => 0,
 		  AutoResponseType => 'auto reply',
 		  OrigHeader => {
 		    From => $first_article{'ToRealname'},
