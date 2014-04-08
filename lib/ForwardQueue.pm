@@ -307,6 +307,8 @@ Paul Waring C<< <paul.waring@manchester.ac.uk> >>
 
 You can find documentation for this module with the perldoc command.
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
 Copyright (c) 2014, University of Manchester. All rights reserved.
+
+Licensed under the GNU Affero GPLv3.
