@@ -50,6 +50,7 @@ sub process_queue
   my $self = shift;
 
   # Create all objects necessary for searching tickets
+  # Taken from documentation for Kernel::System::Ticket
   my $ConfigObject = Kernel::Config->new();
 
   if ($self->exists_option('TempDir') && $self->defined_option('TempDir'))
@@ -93,6 +94,8 @@ sub process_queue
     EncodeObject       => $EncodeObject,
   );  
   
+  # Always return results as an array, as we use Ticket ID to obtain any additional
+  # information (results as a hash includes Ticket Number as well)
   $self->set_query('Result' => 'ARRAY');
   
   my @results = $TicketObject->TicketSearch(%{$self->query});
@@ -118,6 +121,8 @@ sub process_queue
 	
 	unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
 	{
+	  # First article in ticket will be the original user request - we need this for the
+	  # body of the forwarded email and the full From: field
 	  my %first_article = $TicketObject->ArticleFirstArticle(
 	    TicketID => $ticket_id,
       );
@@ -134,6 +139,7 @@ sub process_queue
 		body => $first_article{'Body'},
       );
 	  
+	  # Set additional mail options, including envelope from
 	  my %mail_options = (
 	    from => $first_article{'CustomerID'},
 	  );
@@ -236,6 +242,8 @@ This module requires the following modules:
 =item * L<Email::Sender>
 
 =back
+
+You must also have the OTRS source installed and available via C<@INC>.
 
 =head1 INCOMPATIBILITIES
 
