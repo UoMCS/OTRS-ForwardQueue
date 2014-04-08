@@ -11,6 +11,8 @@ use Email::Sender::Transport::SMTP;
 use Email::Simple;
 use Email::Simple::Creator;
 
+use Template;
+
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Log;
@@ -130,7 +132,7 @@ sub process_queue
 	  my $from_address = $first_article{'From'};
 	  my $recipient = $self->get_option('ForwardTo');
 	  
-	  my $email = Email::Simple->create(
+	  my $forward_email = Email::Simple->create(
 	    header => [
 		  To => $recipient,
 		  From => $from_address,
@@ -153,7 +155,35 @@ sub process_queue
 		$mail_options{'transport'} = $transport;
 	  }
 	  
-	  Email::Sender::Simple->send($email, \%mail_options);
+	  Email::Sender::Simple->send($forward_email, \%mail_options);
+	  
+	  if ($self->exists_option('NotifyCustomer') && $self->defined_option('NotifyCustomer') && $self->get_option('NotifyCustomer'))
+	  {
+	    # Produce the body of the response to the customer
+		my $nc_tt = Template->new({
+		  INCLUDE_PATH => $self->get_option('TemplatesPath')
+		}) || die "$Template::ERROR\n";
+		
+		my $nc_output = '';
+		my $nc_vars = {};
+		
+		$nc_tt->process('notify_customer.tt', $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
+		
+		# Add a new article, which should be emailed automatically to the customer.
+		# Remember that To/From are reversed here, since we are sending an email to
+		# the customer who raised the ticket.
+		my $article_id = $TicketObject->ArticleCreate(
+		  TicketID => $ticket_id,
+		  ArticleType => 'email-external',
+		  SenderType => 'agent',
+		  To => $first_article{'From'},
+		  Subject => 'Forwarding ticket',
+		  Body => $nc_output,
+		  HistoryType => 'EmailCustomer',
+		  UserID => $self->get_query('UserID'),
+		  NoAgentNotify => 1,
+		);
+	  }
 	}
 		
 	unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))
@@ -210,6 +240,9 @@ This document describes ForwardQueue version 0.0.1.
       HistoryComment => 'Forward to other request system',
       SMTP => 1,
       SMTPServer => 'smtp.example.org',
+	  NotifyCustomer => 1,
+	  NotifyCustomerTemplate => 'notify_customer.tt',
+	  TemplatesPath => '/usr/local/templates',
     );
 
     my $fq = ForwardQueue->new('query' => \%query, 'options' => \%options);
