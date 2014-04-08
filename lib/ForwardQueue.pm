@@ -188,7 +188,8 @@ sub process_queue
 		  AutoResponseType => 'auto reply',
 		  OrigHeader => {
 		    From => $first_article{'ToRealname'},
-			Subject => $first_article{'Subject'},
+			To => $first_article{'From'},
+			Subject => 'Forwarding ticket',
 		  },
 		);
 	  }
