@@ -303,7 +303,7 @@ L<https://github.com/pwaring/otrs-forward-queue/issues>
 
 =head1 AUTHOR
 
-Paul Waring C<< <paul.waring@manchester.ac.uk> >>
+Paul Waring <paul.waring@manchester.ac.uk>
 
 =head1 SUPPORT
 
