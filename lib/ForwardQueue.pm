@@ -175,7 +175,7 @@ sub process_queue
 		my $article_id = $TicketObject->ArticleCreate(
 		  TicketID => $ticket_id,
 		  ArticleType => 'email-external',
-		  SenderType => 'agent',
+		  SenderType => 'system',
 		  To => $first_article{'From'},
 		  Subject => 'Forwarding ticket',
 		  Body => $nc_output,
