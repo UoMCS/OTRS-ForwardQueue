@@ -176,6 +176,7 @@ sub process_queue
 		  TicketID => $ticket_id,
 		  ArticleType => 'email-external',
 		  SenderType => 'system',
+		  From => $first_article{'ToRealname'},
 		  To => $first_article{'From'},
 		  Subject => 'Forwarding ticket',
 		  Body => $nc_output,
@@ -184,6 +185,7 @@ sub process_queue
 		  HistoryComment => 'Notified customer of ticket forwarding',
 		  UserID => $self->get_query('UserID'),
 		  NoAgentNotify => 1,
+		  AutoResponseType => 'auto reply',
 		);
 	  }
 	}
