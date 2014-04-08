@@ -186,6 +186,10 @@ sub process_queue
 		  UserID => $self->get_query('UserID'),
 		  NoAgentNotify => 0,
 		  AutoResponseType => 'auto reply',
+		  OrigHeader => {
+		    From => $first_article{'ToRealname'},
+			Subject => $first_article{'Subject'},
+		  },
 		);
 	  }
 	}
