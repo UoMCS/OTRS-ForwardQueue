@@ -1,5 +1,7 @@
 package ForwardQueue;
 
+use 5.012;
+
 use strict;
 use warnings;
 
@@ -269,6 +271,8 @@ which were reported in the incorrect system.
 
 =head1 DEPENDENCIES
 
+Perl version 5.12 or higher is required.
+
 This module requires the following modules:
 
 =over 4
@@ -286,6 +290,9 @@ This module requires the following modules:
 =item * L<Template> - For dynamically producing the body of emails.
 
 =back
+
+Although some of the above modules are used for optional features, all the dependencies
+must be installed as this module will attempt to import all of them.
 
 You must also have the OTRS source installed and available via C<@INC>.
 
