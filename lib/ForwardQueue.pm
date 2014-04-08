@@ -180,7 +180,7 @@ sub process_queue
 		  To => $first_article{'From'},
 		  Subject => 'Forwarding ticket',
 		  Body => $nc_output,
-		  CharSet => 'ISO-8859-15',
+		  Charset => 'ISO-8859-15',
 		  MimeType => 'text/plain',
 		  HistoryType => 'EmailCustomer',
 		  HistoryComment => 'Notified customer of ticket forwarding',
