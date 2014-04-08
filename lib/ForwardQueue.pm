@@ -172,7 +172,7 @@ sub process_queue
 		# Add a new article, which should be emailed automatically to the customer.
 		# Remember that To/From are reversed here, since we are sending an email to
 		# the customer who raised the ticket.
-		my $article_id = $TicketObject->ArticleCreate(
+		my $article_id = $TicketObject->ArticleSend(
 		  TicketID => $ticket_id,
 		  ArticleType => 'email-external',
 		  SenderType => 'system',
@@ -180,7 +180,8 @@ sub process_queue
 		  To => $first_article{'From'},
 		  Subject => 'Forwarding ticket',
 		  Body => $nc_output,
-		  ContentType => 'text/plain; charset=ISO-8859-15',
+		  CharSet => 'ISO-8859-15',
+		  MimeType => 'text/plain',
 		  HistoryType => 'EmailCustomer',
 		  HistoryComment => 'Notified customer of ticket forwarding',
 		  UserID => $self->get_query('UserID'),
