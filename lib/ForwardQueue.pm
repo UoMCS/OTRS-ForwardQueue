@@ -359,7 +359,7 @@ You must also have the OTRS source installed and available via C<@INC>.
 None reported.
 
 =head1 BUGS AND LIMITATIONS
- 
+
 No bugs have been reported.
 
 Please report any bugs through the Github issue system:
