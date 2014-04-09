@@ -106,7 +106,10 @@ sub process_queue
   
   foreach my $ticket_id (@results)
   {
-    print "Processing ticket ID: $ticket_id\n";
+    if ($self->exists_option('Debug') && $self->defined_option('Debug') && $self->get_option('Debug'))
+    {
+      print "Processing ticket ID: $ticket_id\n";
+    }
     
     my %ticket = $TicketObject->TicketGet(
       TicketID => $ticket_id,
@@ -254,6 +257,7 @@ This document describes ForwardQueue version 0.0.1.
       NotifyCustomer => 1,
       NotifyCustomerTemplate => 'notify_customer.tt',
       TemplatesPath => '/usr/local/templates',
+      Debug => 1,
     );
 
     my $fq = ForwardQueue->new('query' => \%query, 'options' => \%options);
