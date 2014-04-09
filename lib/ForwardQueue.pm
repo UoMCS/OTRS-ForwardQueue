@@ -296,6 +296,7 @@ Required list of options which affect how the queue is processed.
 =over
 
 =item C<HistoryComment> (required): The comment left in the history of the ticket when it is forwarded to anther system.
+
 =item C<TempDir> (optional): Override the temporary directory used by the OTRS cache. Probably needs to be set if you are not running the module as the web server user (e.g. aoache). If you get errors about file permissions, try setting this to C<'/tmp'>.
 
 =back
