@@ -297,7 +297,29 @@ Required list of options which affect how the queue is processed.
 
 =item C<HistoryComment> (required): The comment left in the history of the ticket when it is forwarded to anther system.
 
-=item C<TempDir> (optional): Override the temporary directory used by the OTRS cache. Probably needs to be set if you are not running the module as the web server user (e.g. aoache). If you get errors about file permissions, try setting this to C<'/tmp'>.
+=item C<TempDir> (optional): Override the temporary directory used by the OTRS cache. Probably needs to be set if you are not running the module as the web server user (e.g. apache). If you get errors about file permissions, try setting this to C<'/tmp'>.
+
+=item C<ForwardTo> (required): The email address to forward tickets to.
+
+=item C<DisableLocking> (optional): Set to 1 to disable locking of forwarded tickets. Default behaviour is to lock tickets.
+
+=item C<DisableHistory> (optional): Set to 1 to disable leaving a comment in the history (effectively makes C<HistoryComment> redundant). Default behaviour is to add a comment.
+
+=item C<DisableClosing> (optional): Set to 1 to disable closing the ticket after forwarding. Default behaviour is to mark ticket as 'closed successful'.
+
+=item C<DisableEmail> (optional): Set to 1 to disable sending any emails, which effectively prevents forwarding of tickets. Default behaviour is to send email. Included as an option to allow module users to test their code before sending out emails.
+
+=item C<SMTP> (optional): Set to 1 to use an SMTP server to send email, instead of the local MTA.
+
+=item C<SMTPServer> (optional): Host name or IP address of the SMTP server to use. Only effective if C<SMTP> is set to 1.
+
+=item C<NotifyCustomer> (optional): Set to 1 to create a new article on the ticket and notify the customer that it has been forwarded.
+
+=item C<NotifyCustomerTemplate> (optional): Relative filename to template for customer notification. Required if C<NotifyCustomer> is set to 1.
+
+=item C<TemplatesPath> (optional): Absolute path to template directory. Required if C<NotifyCustomerTemplate> is set.
+
+=item C<Debug> (optional): Set to 1 to print extra debugging information, such as the IDs of forwarded tickets.
 
 =back
 
