@@ -273,6 +273,37 @@ tickets to an email address, closing them in OTRS.
 The original motivation for writing this module was to re-assign tickets
 which were reported in the incorrect system.
 
+The following functions are provided:
+
+=over
+
+=item new(\%query, \%options)
+
+Produced automatically by Moose, this is the constructor for the class.
+
+=over
+
+=item \%query
+
+Reference to a hash which contains the query parameters. This takes the same
+key/value pairs as the C<TicketSearch> function of C<Kernel::System::TicketSearch>,
+except that the C<Result> value is always set to 'ARRAY'.
+
+=item \%options
+
+Required list of options which affect how the queue is processed.
+
+=over
+
+=item C<HistoryComment> (required): The comment left in the history of the ticket when it is forwarded to anther system.
+=item C<TempDir> (optional): Override the temporary directory used by the OTRS cache. Probably needs to be set if you are not running the module as the web server user (e.g. aoache). If you get errors about file permissions, try setting this to C<'/tmp'>.
+
+=back
+
+=back
+
+=back
+
 =head1 DEPENDENCIES
 
 Perl version 5.12 or higher is required.
