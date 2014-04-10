@@ -170,7 +170,9 @@ sub process_queue
         }) || die "$Template::ERROR\n";
         
         my $nc_output = '';
-        my $nc_vars = {};
+        my $nc_vars = {
+          ticket_title => $ticket{'Title'},
+        };
         
         $nc_tt->process('notify_customer.tt', $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
         
@@ -183,7 +185,7 @@ sub process_queue
           SenderType => 'system',
           From => $first_article{'ToRealname'},
           To => $first_article{'From'},
-          Subject => 'Forwarding ticket',
+          Subject => 'Ticket forwarded: ' . $ticket{'Title'},
           Body => $nc_output,
           Charset => 'ISO-8859-15',
           MimeType => 'text/plain',
