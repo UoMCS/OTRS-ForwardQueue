@@ -193,11 +193,6 @@ sub process_queue
           HistoryComment => 'Notified customer of ticket forwarding',
           UserID => $self->get_query('UserID'),
           AutoResponseType => 'auto reply',
-          OrigHeader => {
-            From => $first_article{'ToRealname'},
-            To => $first_article{'From'},
-            Subject => 'Forwarding ticket',
-          },
         );
       }
     }
