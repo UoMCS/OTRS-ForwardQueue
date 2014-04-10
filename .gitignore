@@ -1,3 +1,5 @@
 todo.txt
 *.tar.gz
 ForwardQueue-*/
+run.sh
+*.pl
