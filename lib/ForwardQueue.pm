@@ -171,7 +171,7 @@ sub process_queue
         
         my $nc_output = '';
         my $nc_vars = {
-          ticket_title => $ticket{'Title'},
+          ticket => $ticket,
         };
         
         $nc_tt->process('notify_customer.tt', $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
