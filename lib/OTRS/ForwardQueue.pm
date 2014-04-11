@@ -1,4 +1,4 @@
-package ForwardQueue;
+package OTRS::ForwardQueue;
 
 use 5.012;
 
@@ -233,15 +233,15 @@ __END__
 
 =head1 NAME
 
-ForwardQueue - Forwards the contents of an OTRS queue to a given email address.
+OTRS::ForwardQueue - Forwards the contents of an OTRS queue to a given email address.
 
 =head1 VERSION
 
-This document describes ForwardQueue version 0.0.1.
+This document describes OTRS::ForwardQueue version 0.0.1.
 
 =head1 SYNOPSIS
 
-    use ForwardQueue;
+    use OTRS::ForwardQueue;
 
     %query = (
       Queues => ['MyQueue'],
