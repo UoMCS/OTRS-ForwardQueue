@@ -1,6 +1,6 @@
 package OTRS::ForwardQueue;
 
-use 5.012;
+use 5.014;
 
 use strict;
 use warnings;
@@ -331,7 +331,7 @@ Required list of options which affect how the queue is processed.
 
 =head1 DEPENDENCIES
 
-Perl version 5.12 or higher is required.
+Perl version 5.14 or higher is required. You may be able to use the module in old versions of Perl, but this is neither tested nor supported.
 
 This module requires the following modules:
 
