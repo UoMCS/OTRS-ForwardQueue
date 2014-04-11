@@ -262,7 +262,7 @@ This document describes OTRS::ForwardQueue version 0.0.1.
       Debug => 1,
     );
 
-    my $fq = ForwardQueue->new('query' => \%query, 'options' => \%options);
+    my $fq = OTRS::ForwardQueue->new('query' => \%query, 'options' => \%options);
 
     $fp->process_queue();
 
