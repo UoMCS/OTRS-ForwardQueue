@@ -1,5 +1,5 @@
 todo.txt
 *.tar.gz
-ForwardQueue-*/
+OTRS-ForwardQueue-*/
 run.sh
 *.pl
