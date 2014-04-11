@@ -354,7 +354,8 @@ This module requires the following modules:
 Although some of the above modules are used for optional features, all the dependencies
 must be installed as this module will attempt to import all of them.
 
-You must also have the OTRS source installed and available via C<@INC>.
+You must also have the OTRS source installed and available via C<@INC>. This module has only
+been tested with OTRS 3.2.10.
 
 =head1 INCOMPATIBILITIES
 
