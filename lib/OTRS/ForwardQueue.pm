@@ -354,6 +354,24 @@ must be installed as this module will attempt to import all of them.
 You must also have the OTRS source installed and available via C<@INC>. This module has only
 been tested with OTRS 3.2.10.
 
+=head1 RUNNING AS A CRON JOB
+
+Running a script which uses this module as a cron job may require some additional tweaks.
+The easiest way is to create a small wrapper script to set the various library paths
+correctly, such as the one below:
+
+    #!/bin/bash
+    
+    # Set this to the absolute path to your OTRS install, so those modules
+    # can be loaded
+    FQ_OTRS_LIB="-I/path/to/otrs"
+    
+    # Comment out this line if you are not using local::lib
+    FQ_LOCAL_LIB="-I$HOME/perl5/lib/perl5 -Mlocal::lib"
+    
+    # Change this to the path of your script
+    /usr/bin/perl $FQ_OTRS_LIB $FQ_LOCAL_LIB /path/to/script.pl
+
 =head1 INCOMPATIBILITIES
 
 None reported.
