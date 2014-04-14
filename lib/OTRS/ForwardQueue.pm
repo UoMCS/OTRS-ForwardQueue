@@ -269,11 +269,8 @@ This document describes OTRS::ForwardQueue version 0.0.1.
 =head1 DESCRIPTION
 
 This module queries the Open Technology Real Services (OTRS) ticket management
-system for ticketss matching the query provided and then forwards these
+system for tickets matching the query provided and then forwards these
 tickets to an email address, closing them in OTRS.
-
-The original motivation for writing this module was to re-assign tickets
-which were reported in the incorrect system.
 
 The following functions are provided:
 
@@ -331,7 +328,7 @@ Required list of options which affect how the queue is processed.
 
 =head1 DEPENDENCIES
 
-Perl version 5.14 or higher is required. You may be able to use the module in old versions of Perl, but this is neither tested nor supported.
+Perl version 5.14 or higher is required. You may be able to use the module with older versions of Perl, but this is neither tested nor supported.
 
 This module requires the following modules:
 
