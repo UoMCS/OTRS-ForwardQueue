@@ -367,10 +367,10 @@ correctly, such as the one below:
     FQ_OTRS_LIB="-I/path/to/otrs"
     
     # Comment out this line if you are not using local::lib
-    FQ_LOCAL_LIB="-I$HOME/perl5/lib/perl5 -Mlocal::lib"
+    FQ_LOCAL_LIB="-I$HOME/perl5/lib/perl5"
     
     # Change this to the path of your script
-    /usr/bin/perl $FQ_OTRS_LIB $FQ_LOCAL_LIB /path/to/script.pl
+    /usr/bin/perl "$FQ_OTRS_LIB" "$FQ_LOCAL_LIB" /path/to/script.pl
 
 =head1 INCOMPATIBILITIES
 
