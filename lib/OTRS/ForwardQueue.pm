@@ -24,7 +24,7 @@ use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::Ticket::Article;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 has 'query' => (
   traits => ['Hash'],
