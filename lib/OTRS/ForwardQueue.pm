@@ -378,6 +378,6 @@ No bugs have been reported.
 
 Please report any bugs through the Github issue system:
 
-L<https://github.com/pwaring/otrs-forward-queue/issues>
+L<https://github.com/pwaring/OTRS-ForwardQueue/issues>
 
 
