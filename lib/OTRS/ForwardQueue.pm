@@ -231,13 +231,7 @@ __PACKAGE__->meta->make_immutable;
 1; # Magic true value required at end of module
 __END__
 
-=head1 NAME
-
-OTRS::ForwardQueue - Forwards the contents of an OTRS queue to a given email address.
-
-=head1 VERSION
-
-This document describes OTRS::ForwardQueue version 0.0.3.
+# ABSTRACT: Forwards the contents of an OTRS queue to a given email address.
 
 =head1 SYNOPSIS
 
@@ -364,8 +358,8 @@ correctly, such as the one below:
 
     #!/bin/bash
     
-    # Set this to the absolute path to your OTRS install, so those modules
-    # can be loaded
+    # Set this to the absolute path to your OTRS install, so those
+    # modules can be loaded
     FQ_OTRS_LIB="-I/path/to/otrs"
     
     # Comment out this line if you are not using local::lib
@@ -386,16 +380,4 @@ Please report any bugs through the Github issue system:
 
 L<https://github.com/pwaring/otrs-forward-queue/issues>
 
-=head1 AUTHOR
 
-Paul Waring <paul.waring@manchester.ac.uk>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (c) 2014, University of Manchester. All rights reserved.
-
-Licensed under the GNU Affero GPLv3.
