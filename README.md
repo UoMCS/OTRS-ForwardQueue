@@ -12,7 +12,6 @@ No specific version of OTRS is required, however this software has only been tes
 
 The following Perl modules are required:
 
- * IO::Interactive
  * Moose
  * namespace::autoclean
  * Email::Simple
