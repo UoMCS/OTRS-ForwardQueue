@@ -39,7 +39,7 @@ has 'query' => (
 
 has 'options' => (
   traits => ['Hash'],
-  is => 'rw',
+  is => 'ro',
   isa => 'HashRef',
   required => 1,
   handles => {
