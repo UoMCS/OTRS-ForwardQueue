@@ -24,7 +24,7 @@ use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::Ticket::Article;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 has 'query' => (
   traits => ['Hash'],
@@ -347,8 +347,8 @@ This module requires the following modules:
 Although some of the above modules are used for optional features, all the dependencies
 must be installed as this module will attempt to import all of them.
 
-You must also have the OTRS source installed and available via C<@INC>. This module has only
-been tested with OTRS 3.2.10.
+You must also have the OTRS source installed and available via C<@INC>. This module has
+been tested with OTRS 3.2.10 and 3.3.9.
 
 =head1 RUNNING AS A CRON JOB
 
