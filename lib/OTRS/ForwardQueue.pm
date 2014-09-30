@@ -173,8 +173,15 @@ sub process_queue
         my $nc_vars = {
           ticket => \%ticket,
         };
+				
+				my $notify_template = 'notify_customer.tt';
+				
+				if ($self->exists('NotifyCustomerTemplate') && $self->defined_option('NotifyCustomerTemplate') && $self->get_option('NotifyCustomerTemplate'))
+				{
+					$notify_template = $self->get_option('NotifyCustomerTemplate');
+				}
         
-        $nc_tt->process('notify_customer.tt', $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
+        $nc_tt->process($notify_template, $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
         
         # Add a new article, which should be emailed automatically to the customer.
         # Remember that To/From are reversed here, since we are sending an email to
