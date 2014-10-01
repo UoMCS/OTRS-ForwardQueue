@@ -176,7 +176,7 @@ sub process_queue
 				
 				my $notify_template = 'notify_customer.tt';
 				
-				if ($self->exists('NotifyCustomerTemplate') && $self->defined_option('NotifyCustomerTemplate') && $self->get_option('NotifyCustomerTemplate'))
+				if ($self->exists_option('NotifyCustomerTemplate') && $self->defined_option('NotifyCustomerTemplate') && $self->get_option('NotifyCustomerTemplate'))
 				{
 					$notify_template = $self->get_option('NotifyCustomerTemplate');
 				}
