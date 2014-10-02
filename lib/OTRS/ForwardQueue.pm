@@ -208,7 +208,7 @@ sub process_queue
           UserID => $self->get_query('UserID'),
           AutoResponseType => 'auto reply',
           OrigHeader => {
-            From => $first_article{'ToRealname'},
+            From => $from_address,
             To => $first_article{'From'},
             Subject => 'Ticket forwarded: ' . $ticket{'Title'},
           },
