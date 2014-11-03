@@ -272,7 +272,7 @@ __END__
 
     my $fq = OTRS::ForwardQueue->new('query' => \%query, 'options' => \%options);
 
-    $fp->process_queue();
+    $fq->process_queue();
 
 =head1 DESCRIPTION
 
