@@ -24,7 +24,7 @@ use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::Ticket::Article;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 has 'query' => (
   traits => ['Hash'],
@@ -96,25 +96,25 @@ sub process_queue
     MainObject         => $MainObject,
     TimeObject         => $TimeObject,
     EncodeObject       => $EncodeObject,
-  );  
-  
+  );
+
   # Always return results as an array, as we use Ticket ID to obtain any additional
   # information (results as a hash includes Ticket Number as well)
   $self->set_query('Result' => 'ARRAY');
-  
+
   my @results = $TicketObject->TicketSearch(%{$self->query});
-  
+
   foreach my $ticket_id (@results)
   {
     if ($self->exists_option('Debug') && $self->defined_option('Debug') && $self->get_option('Debug'))
     {
       print "Processing ticket ID: $ticket_id\n";
     }
-    
+
     my %ticket = $TicketObject->TicketGet(
       TicketID => $ticket_id,
     );
-    
+
     unless ($self->exists_option('DisableLocking') && $self->defined_option('DisableLocking') && $self->get_option('DisableLocking'))
     {
       # Lock ticket before proceeding, to prevent other users from accessing it
@@ -125,7 +125,7 @@ sub process_queue
         SendNoNotification => 1,
       );
     }
-    
+
     unless ($self->exists_option('DisableEmail') && $self->defined_option('DisableEmail') && $self->get_option('DisableEmail'))
     {
       # First article in ticket will be the original user request - we need this for the
@@ -133,10 +133,10 @@ sub process_queue
       my %first_article = $TicketObject->ArticleFirstArticle(
         TicketID => $ticket_id,
       );
-    
+
       my $from_address = $first_article{'From'};
       my $recipient = $self->get_option('ForwardTo');
-      
+
       my $forward_email = Email::Simple->create(
         header => [
           To => $recipient,
@@ -145,51 +145,51 @@ sub process_queue
         ],
         body => $first_article{'Body'},
       );
-      
+
       # Set additional mail options, including envelope from
       my %mail_options = (
         from => $first_article{'CustomerID'},
       );
-      
+
       if ($self->exists_option('SMTP') && $self->defined_option('SMTP') && $self->get_option('SMTP'))
       {
         my $transport = Email::Sender::Transport::SMTP->new({
           host => $self->get_option('SMTPServer'),
         });
-        
+
         $mail_options{'transport'} = $transport;
       }
-      
+
       Email::Sender::Simple->send($forward_email, \%mail_options);
-      
+
       if ($self->exists_option('NotifyCustomer') && $self->defined_option('NotifyCustomer') && $self->get_option('NotifyCustomer'))
       {
         # Produce the body of the response to the customer
         my $nc_tt = Template->new({
           INCLUDE_PATH => $self->get_option('TemplatesPath')
         }) || die "$Template::ERROR\n";
-        
+
         my $nc_output = '';
         my $nc_vars = {
           ticket => \%ticket,
         };
-				
+
 				my $notify_template = 'notify_customer.tt';
-				
+
 				if ($self->exists_option('NotifyCustomerTemplate') && $self->defined_option('NotifyCustomerTemplate') && $self->get_option('NotifyCustomerTemplate'))
 				{
 					$notify_template = $self->get_option('NotifyCustomerTemplate');
 				}
-        
+
         $nc_tt->process($notify_template, $nc_vars, \$nc_output) || die $nc_tt->error() . "\n";
-				
+
 				my $from_address = $first_article{'ToRealname'};
-				
+
 				if ($self->exists_option('FromAddress') && $self->defined_option('FromAddress') && $self->get_option('FromAddress'))
 				{
 					$from_address = $self->get_option('FromAddress');
 				}
-        
+
         # Add a new article, which should be emailed automatically to the customer.
         # Remember that To/From are reversed here, since we are sending an email to
         # the customer who raised the ticket.
@@ -215,7 +215,7 @@ sub process_queue
         );
       }
     }
-        
+
     unless ($self->exists_option('DisableHistory') && $self->defined_option('DisableHistory') && $self->get_option('DisableHistory'))
     {
       # Log the change in the history
@@ -226,7 +226,7 @@ sub process_queue
         CreateUserID => $self->get_query('UserID'),
       );
     }
-    
+
     unless ($self->exists_option('DisableClosing') && $self->defined_option('DisableClosing') && $self->get_option('DisableClosing'))
     {
       # Mark the ticket as successfully closed
@@ -371,14 +371,14 @@ The easiest way is to create a small wrapper script to set the various library p
 correctly, such as the one below:
 
     #!/bin/bash
-    
+
     # Set this to the absolute path to your OTRS install, so those
     # modules can be loaded
     FQ_OTRS_LIB="-I/path/to/otrs"
-    
+
     # Comment out this line if you are not using local::lib
     FQ_LOCAL_LIB="-I$HOME/perl5/lib/perl5"
-    
+
     # Change this to the path of your script
     /usr/bin/perl "$FQ_OTRS_LIB" "$FQ_LOCAL_LIB" /path/to/script.pl
 
@@ -393,5 +393,3 @@ No bugs have been reported.
 Please report any bugs through the Github issue system:
 
 L<https://github.com/pwaring/OTRS-ForwardQueue/issues>
-
-
